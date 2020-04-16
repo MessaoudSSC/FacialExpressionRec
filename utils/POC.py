@@ -1,17 +1,10 @@
 import time
-
 import cv2
-
 from numpysocket import *
-
 cascade_classifier = cv2.CascadeClassifier("./haarcascade_files/haarcascade_frontalface_default.xml")
-
-
 def brighten(data, b):
     datab = data * b
     return datab
-
-
 def format_image(image):
     if len(image.shape) > 2 and image.shape[2] == 3:
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -40,34 +33,26 @@ def format_image(image):
         return None
         # cv2.imshow("Lol", image)
         # cv2.waitKey(0)
-
     return image
-
-
 nps = numpysocket()
-
 video_capture = cv2.VideoCapture(0)
 font = cv2.FONT_HERSHEY_SIMPLEX
-
 # while True:
 # Capture frame-by-frame
-ret, frame = video_capture.read()
-
-image = format_image(frame)
-
-# Display face
-cv2.imshow("Lol", image)
-
-# Display the resulting frame
-cv2.imshow('Video', frame)
-
-nps.startClient("www.math-cs.ucmo.edu", image)
-
-if cv2.waitKey(1) & 0xFF == ord('q'):
-    pass
-
-time.sleep(0.1)
-
+while True:
+    ret, frame = video_capture.read()
+    #image = format_image(frame)
+    # Display face
+    #cv2.imshow("Lol", image)
+    # Display the resulting frame
+    cv2.imshow('Video', frame)
+    if cv2.waitKey(33) == ord('q'):
+        break
+    if cv2.waitKey(33) == 32:
+        image = format_image(frame)
+        # Display face
+        cv2.imshow("Lol", image)
+        nps.startClient("www.math-cs.ucmo.edu", image)
 # When everything is done, release the capture
 video_capture.release()
 cv2.destroyAllWindows()
